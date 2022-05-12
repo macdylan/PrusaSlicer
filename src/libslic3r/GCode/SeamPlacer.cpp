@@ -704,7 +704,7 @@ struct SeamComparator {
             distance_penalty_b = 1.0f - gauss((b.position.head<2>() - preffered_location).norm(), 0.0f, 1.0f, 0.005f);
         }
 
-        // the penalites are kept close to range [0-2.x] however, it should not be relied upon
+        // the penalites are kept close to range [0-1.x] however, it should not be relied upon
         float penalty_a = (a.visibility + SeamPlacer::additional_angle_importance)
                 * compute_angle_penalty(a.local_ccw_angle)
                 + distance_penalty_a;
@@ -780,8 +780,11 @@ struct SeamComparator {
         // looks scary, but it is gaussian combined with sigmoid,
         // so that concave points have much smaller penalty over convex ones
         // https://github.com/prusa3d/PrusaSlicer/tree/master/doc/seam_placement/corner_penalty_function.png
-        return gauss(ccw_angle, 0.0f, 1.0f, 3.0f) +
+        float f_value = gauss(ccw_angle, 0.0f, 1.0f, 3.0f) +
                 1.0f / (2 + std::exp(-ccw_angle)); // sigmoid, which heavily favourizes concave angles
+        //NOTE for very small angles, the noise in the angle computation cause aligned lines curving.
+        //for this reason, the value will be clamped to 1.2 value, throwing away angles roughly smaller than 30 degrees
+        return std::min(f_value, 1.2f);
     }
 };
 

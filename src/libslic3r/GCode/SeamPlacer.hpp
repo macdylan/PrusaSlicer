@@ -119,10 +119,10 @@ public:
     static constexpr size_t sqr_rays_per_triangle = 7;
 
     // arm length used during angles computation
-    static constexpr float polygon_local_angles_arm_distance = 1.0f;
+    static constexpr float polygon_local_angles_arm_distance = 0.1f;
 
     // increases angle importance at the cost of deacreasing visibility info importance. must be > 0
-    static constexpr float additional_angle_importance = 0.3f;
+    static constexpr float additional_angle_importance = 0.1f;
 
     // If enforcer or blocker is closer to the seam candidate than this limit, the seam candidate is set to Blocker or Enforcer
     static constexpr float enforcer_blocker_distance_tolerance = 0.35f;
