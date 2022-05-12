@@ -119,7 +119,7 @@ public:
     static constexpr size_t sqr_rays_per_triangle = 7;
 
     // arm length used during angles computation
-    static constexpr float polygon_local_angles_arm_distance = 0.5f;
+    static constexpr float polygon_local_angles_arm_distance = 1.0f;
 
     // increases angle importance at the cost of deacreasing visibility info importance. must be > 0
     static constexpr float additional_angle_importance = 0.3f;
